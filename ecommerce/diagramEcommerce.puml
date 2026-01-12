@@ -1,0 +1,49 @@
+@startuml Ecommerce
+'https://plantuml.com/class-diagram
+
+class Cliente{
+    -String nome
+    -String email
+    -String telefone
+}
+class Produto{
+    -String nome
+    -String descricao
+    -double preco
+}
+class Pedido{
+    -int id
+    -List<ItemPedido> itens
+    -Cliente cliente
+    -Pagamento pagamento
+    -Double total
+    +void calcularTotal()
+}
+class ItemPedido{
+    -int quantidade
+    -Produto produto
+}
+abstract class Pagamento{
+'    -double valor
+    -Date dataPagamento
+}
+class Cartao extends Pagamento{
+    -String numeroCartao
+    -String nomeTitular
+    -Date dataValidade
+}
+class Boleto extends Pagamento{
+    -String codigoBarras
+    -Date dataVencimento
+}
+class Pix extends Pagamento{
+    -String chavePix
+}
+
+Cliente "1" o-- "*" Pedido
+Pedido "1" *-- "*" ItemPedido
+ItemPedido "*" -- "1" Produto
+Pedido "1" *-- "1" Pagamento
+
+
+@enduml
