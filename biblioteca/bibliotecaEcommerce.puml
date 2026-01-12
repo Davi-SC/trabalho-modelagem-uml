@@ -1,0 +1,85 @@
+@startuml Biblioteca
+'https://plantuml.com/class-diagram
+
+class Livro {
+    -String titulo
+    -int anoPublicacao
+    -Autor autor
+    -Editora editora
+}
+
+class Exemplar {
+    -int codigo
+    -Biblioteca biblioteca
+    -boolean disponivel
+    +void marcarComoEmprestado()
+    +void marcarComoDisponivel()
+}
+
+class Biblioteca {
+    -String nome
+    -String endereco
+    +void adicionarExemplar()
+    +List<Exemplar> listarExemplares()
+}
+
+class Usuario {
+    -int matricula
+    -String nome
+    -String email
+    -String telefone
+    +Reserva fazerReserva()
+    +Emprestimo realizarEmprestimo()
+}
+
+class Reserva {
+    -int id
+    -Date dataSolicitacao
+    -Date dataExpiracao
+    -String status
+    +void cancelarReserva()
+    +void confirmarReserva()
+}
+
+class Emprestimo {
+    -int id
+    -Date dataRetirada
+    -Date dataDevolucao
+    -boolean devolvido
+    +registrarDevolucao(): void
+}
+
+class Autor {
+    -int id
+    -String nome
+    -List<livro> livrosEscritos
+    +List<livro> buscarLivros()
+}
+
+class Editora {
+    -int id
+    -String nome
+    -String pais
+}
+
+
+
+
+Livro "1" *-- "1..*" Exemplar
+
+Biblioteca "1" o-- "*" Exemplar
+
+Usuario "1" -- "*" Reserva
+Livro "1" -- "*" Reserva
+
+Autor "*" -- "*" Livro
+
+
+Editora "1" -- "*" Livro
+
+Usuario "1" -- "*" Emprestimo
+Exemplar "1" -- "*" Emprestimo
+
+
+
+@enduml
