@@ -2,75 +2,87 @@
 'https://plantuml.com/class-diagram
 
 class Livro {
+    -String isnb
     -String titulo
     -int anoPublicacao
-    -Autor autor
+    -List<Autor> autores
     -Editora editora
+    -List<Exemplar> exemplares
 }
 
 class Exemplar {
-    -int codigo
+    -int idExemplar
     -Biblioteca biblioteca
     -boolean disponivel
+    -List<Emprestimo> emprestimos
+    -Livro livro
     +void marcarComoEmprestado()
     +void marcarComoDisponivel()
 }
 
 class Biblioteca {
+    -int idBiblioteca
     -String nome
     -String endereco
+    -List<Exemplar> exemplares
     +void adicionarExemplar()
     +List<Exemplar> listarExemplares()
 }
 
 class Usuario {
-    -int matricula
+    -int idUsuario
     -String nome
     -String email
-    -String telefone
+    -List<Reserva> reservas
+    -List<Emprestimo> emprestimos
     +Reserva fazerReserva()
     +Emprestimo realizarEmprestimo()
 }
 
 class Reserva {
-    -int id
+    -int idReserva
     -Date dataSolicitacao
     -Date dataExpiracao
     -String status
+    -Usuario usuario
+    -Exemplar exemplar
     +void cancelarReserva()
     +void confirmarReserva()
 }
 
 class Emprestimo {
-    -int id
+    -int idEmprestimo
     -Date dataRetirada
     -Date dataDevolucao
     -boolean devolvido
+    -Usuario usuario
+    -Exemplar exemplar
     +registrarDevolucao(): void
 }
 
 class Autor {
-    -int id
+    -int idAutor
     -String nome
     -List<livro> livrosEscritos
     +List<livro> buscarLivros()
 }
 
 class Editora {
-    -int id
+    -int idEditora
     -String nome
-    -String pais
+    -List<livro> livrosPublicados
 }
 
 
 
 
-Livro "1" *-- "1..*" Exemplar
+Livro "1" *-- "*" Exemplar
 
 Biblioteca "1" o-- "*" Exemplar
 
 Usuario "1" -- "*" Reserva
-Livro "1" -- "*" Reserva
+
+Reserva "*" -- "1" Exemplar
 
 Autor "*" -- "*" Livro
 
